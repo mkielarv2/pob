@@ -1,4 +1,4 @@
 # pob
 Objective Programming Project UAM
 
-<img src="https://i.imgur.com/jiUcx2E.png"/>
+<img url="https://i.imgur.com/ELTIM6j.png"/>
