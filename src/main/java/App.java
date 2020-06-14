@@ -1,16 +1,14 @@
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.InputEvent;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
 
 public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setOnCloseRequest(event ->
-            System.exit(0)
+                System.exit(0)
         );
         stage.setTitle("Uber Commander");
         FXMLLoader loader = new FXMLLoader();

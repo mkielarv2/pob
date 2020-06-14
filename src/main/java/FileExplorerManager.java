@@ -1,13 +1,6 @@
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.*;
-import javafx.scene.layout.TilePane;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,8 +43,7 @@ public class FileExplorerManager {
         });
 
         table.setOnDragOver(event -> {
-            Dragboard db = event.getDragboard();
-            if (Integer.parseInt(event.getDragboard().getString()) != this.hashCode()){
+            if (Integer.parseInt(event.getDragboard().getString()) != this.hashCode()) {
                 event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
             }
             event.consume();
@@ -61,11 +53,13 @@ public class FileExplorerManager {
             List<File> files = event.getDragboard().getFiles();
             System.out.println("wolololo");
             try {
-                Files.copy(files.get(0).toPath(), (new File(cwd.getText()  + "\\" + files.get(0).getName())).toPath());
+                Files.copy(files.get(0).toPath(), (new File(cwd.getText() + "\\" + files.get(0).getName())).toPath());
             } catch (IOException e) {
-                //todo
-                e.printStackTrace();
-                System.out.println(files.get(0).getAbsolutePath() + " >>> " + cwd.getText());
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("An error occured during operation");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
             }
         });
 
@@ -158,14 +152,15 @@ public class FileExplorerManager {
             alert.setHeaderText("Delete '" + item.getName() + "' from current folder?");
 
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                if (!(new File(item.getPath())).delete()) {
-                    System.out.println("error");
-                }
+            if (result.isPresent() && result.get() == ButtonType.OK &&
+                    (new File(item.getPath())).delete()) {
                 refresh();
             } else {
-                //todo
-                System.out.println("noł");
+                Alert dialog = new Alert(Alert.AlertType.ERROR);
+                dialog.setTitle("Error");
+                dialog.setHeaderText("An error occured during operation");
+                dialog.setContentText("File could not be deleted");
+                dialog.showAndWait();
             }
         }
     }
@@ -180,8 +175,11 @@ public class FileExplorerManager {
             if (directory.mkdir()) {
                 refresh();
             } else {
-                //todo
-                System.out.println("Się wyjebało");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("An error occured during operation");
+                alert.setContentText("Directory could not be created");
+                alert.showAndWait();
             }
         });
     }
