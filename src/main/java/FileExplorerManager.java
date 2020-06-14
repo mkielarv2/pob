@@ -51,9 +51,9 @@ public class FileExplorerManager {
 
         table.setOnDragDropped(event -> {
             List<File> files = event.getDragboard().getFiles();
-            System.out.println("wolololo");
             try {
                 Files.copy(files.get(0).toPath(), (new File(cwd.getText() + "\\" + files.get(0).getName())).toPath());
+                refresh();
             } catch (IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
